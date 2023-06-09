@@ -5,15 +5,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.iplmanagement.model.User;
+import com.iplmanagement.repo.UserRepository;
+
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-    // Implement the loadUserByUsername method to load user details based on the provided username
+    private final UserRepository userRepository;
+
+    public JwtUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Load user details from your data source (e.g., database) and return an implementation of UserDetails
-        // You can use your User class here and map it to UserDetails
-        // Throw UsernameNotFoundException if the user is not found
-        throw new UsernameNotFoundException("User not found");
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), user.getAuthorities()
+        );
     }
 }

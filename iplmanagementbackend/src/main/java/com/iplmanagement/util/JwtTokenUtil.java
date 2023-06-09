@@ -61,6 +61,10 @@ public class JwtTokenUtil {
         final Date expiration = extractExpirationDate(token);
         return expiration.before(new Date());
     }
+    
+    public JwtTokenUtil(@Value("${jwt.secret}") String jwtSecret) {
+        this.jwtSecret = jwtSecret;
+    }
 
     // Additional utility methods for token validation, refreshing, etc.
 }

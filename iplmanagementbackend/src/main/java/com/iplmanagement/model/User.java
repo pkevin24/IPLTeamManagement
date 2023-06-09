@@ -3,13 +3,20 @@ package com.iplmanagement.model;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import io.jsonwebtoken.lang.Collections;
-
+@Entity
+@Table(name="users")
 public class User implements UserDetails {
+	@Id
+	@Column(name="user_id")
     private Long id;
     private String username;
     private String password;
