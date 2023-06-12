@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenUtil {
 
-	private static final String SECRET_KEY = "replace-with-your-secret-key";
+	private static final String SECRET_KEY = "replacerxyxyxytxytxxrxyrxytxyxytxyxytxytxytxytxytxyttyxtyxty";
 
     public static SecretKey generateSecretKey() {
         return Keys.secretKeyFor(SignatureAlgorithm.HS256);
@@ -27,13 +27,13 @@ public class JwtTokenUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        SecretKey secretKey = generateSecretKey();
+        //SecretKey secretKey = generateSecretKey();
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // Token is valid for 24 hours
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .signWith(SignatureAlgorithm.HS256,SECRET_KEY.getBytes())
                 .compact();
     }
 
