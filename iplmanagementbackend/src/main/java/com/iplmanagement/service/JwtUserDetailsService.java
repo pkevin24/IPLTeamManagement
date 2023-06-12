@@ -1,6 +1,9 @@
 package com.iplmanagement.service;
 
+import javax.naming.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,5 +45,20 @@ public class JwtUserDetailsService implements UserDetailsService {
         
         // Save the user in the database
         userRepository.save(user);
+    }
+    
+    public UserDetails authenticate(String username, String password) throws AuthenticationException {
+        User user = userRepository.findByUsername(username);
+        
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
+        
+        // Create and return a UserDetails object
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            user.getPassword(),
+            user.getAuthorities()
+        );
     }
 }

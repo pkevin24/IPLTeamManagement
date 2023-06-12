@@ -72,7 +72,11 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	public User() {
+		super();
+	}
+	
     // Constructors, getters, and setters
+	
     
 }

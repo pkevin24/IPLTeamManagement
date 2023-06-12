@@ -1,31 +1,39 @@
 package com.iplmanagement.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
 @Component
 public class JwtTokenUtil {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+	private static final String SECRET_KEY = "replace-with-your-secret-key";
+
+    public static SecretKey generateSecretKey() {
+        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        SecretKey secretKey = generateSecretKey();
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // Token is valid for 24 hours
-                .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS256)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -44,7 +52,7 @@ public class JwtTokenUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -61,10 +69,7 @@ public class JwtTokenUtil {
         final Date expiration = extractExpirationDate(token);
         return expiration.before(new Date());
     }
-    
-    public JwtTokenUtil(@Value("${jwt.secret}") String jwtSecret) {
-        this.jwtSecret = jwtSecret;
-    }
+
 
 	public JwtTokenUtil() {
 		super();

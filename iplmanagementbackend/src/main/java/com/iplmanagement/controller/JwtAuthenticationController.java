@@ -1,9 +1,9 @@
 package com.iplmanagement.controller;
+import javax.naming.AuthenticationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ import com.iplmanagement.util.JwtTokenUtil;
 
 @RestController
 public class JwtAuthenticationController {
-
+	
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtUserDetailsService userDetailsService;
@@ -29,22 +29,22 @@ public class JwtAuthenticationController {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
     }
-
     @PostMapping("/jwt/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
-            throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                            authenticationRequest.getPassword())
+            UserDetails userDetails = userDetailsService.authenticate(
+                authenticationRequest.getUsername(),
+                authenticationRequest.getPassword()
             );
-        } catch (BadCredentialsException e) {
-            throw new Exception("Invalid username or password", e);
+            
+            // Generate the JWT token
+            String token = jwtTokenUtil.generateToken(userDetails);
+            
+            // Return the token in the response
+            return ResponseEntity.ok(new AuthenticationResponse(token));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(token));
     }
     
     @PostMapping("/jwt/register")
