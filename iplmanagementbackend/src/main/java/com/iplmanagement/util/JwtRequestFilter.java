@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +18,12 @@ import com.iplmanagement.service.JwtUserDetailsService;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
-    private final JwtUserDetailsService userDetailsService;
-    private final JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+    private JwtUserDetailsService userDetailsService;
+	
+	@Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public JwtRequestFilter(JwtUserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
         this.userDetailsService = userDetailsService;
@@ -57,4 +61,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 		
 	}
+
+
+	public JwtRequestFilter() {
+	}
+	
+	
 }

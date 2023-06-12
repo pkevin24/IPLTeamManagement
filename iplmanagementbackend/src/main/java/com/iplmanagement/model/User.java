@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 	@Id
 	@Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;

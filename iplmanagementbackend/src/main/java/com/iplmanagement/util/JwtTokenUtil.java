@@ -66,5 +66,10 @@ public class JwtTokenUtil {
         this.jwtSecret = jwtSecret;
     }
 
+	public JwtTokenUtil() {
+		super();
+	}
+    
+
     // Additional utility methods for token validation, refreshing, etc.
 }

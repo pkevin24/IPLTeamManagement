@@ -1,4 +1,5 @@
 package com.iplmanagement.controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iplmanagement.model.AuthenticationRequest;
 import com.iplmanagement.model.AuthenticationResponse;
+import com.iplmanagement.model.User;
 import com.iplmanagement.service.JwtUserDetailsService;
 import com.iplmanagement.util.JwtTokenUtil;
 
@@ -28,7 +30,7 @@ public class JwtAuthenticationController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/jwt/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
         try {
@@ -43,5 +45,11 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(token));
+    }
+    
+    @PostMapping("/jwt/register")
+    public ResponseEntity<String> register(@RequestBody User user) {
+    	userDetailsService.registerUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }
