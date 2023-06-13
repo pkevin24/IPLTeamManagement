@@ -9,7 +9,7 @@ import { LoginDTO } from 'src/models/login.dto';
 export class LoginService {
   constructor(private http: HttpClient) {}
   login(loginDTO: LoginDTO): Observable<any> {
-    const url = 'http://localhost:8080/jwt/login'; // Replace with your backend API URL
+    const url = 'http://localhost:8080/jwt/authenticate'; // Replace with your backend API URL
     console.log(loginDTO.password);
     return this.http.post(url, loginDTO);
   }
