@@ -10,7 +10,8 @@ export class SignupService {
   constructor(private http: HttpClient) {}
 
   signup(signupData: SignupDTO): Observable<any> {
-    const url = 'http://localhost:8080/jwt/register'; // Replace with your backend API URL
+    const url = 'http://localhost:8080/jwt/register';
+    console.log(signupData);
     return this.http.post(url, signupData);
   }
 }

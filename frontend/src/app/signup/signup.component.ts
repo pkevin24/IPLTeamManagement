@@ -8,17 +8,14 @@ import { SignupService } from '../signup.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
-  name: string;
   username: string;
   password: string;
   constructor(private signupService: SignupService) {
-    this.name = '';
     (this.username = ''), (this.password = '');
   }
 
   signup(): void {
     const signupData: SignupDTO = {
-      name: this.name,
       username: this.username,
       password: this.password,
     };
