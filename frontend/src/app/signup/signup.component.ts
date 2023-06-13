@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SignupDTO } from 'src/models/signup.dto';
 import { SignupService } from '../signup.service';
 
@@ -10,7 +11,7 @@ import { SignupService } from '../signup.service';
 export class SignupComponent {
   username: string;
   password: string;
-  constructor(private signupService: SignupService) {
+  constructor(private signupService: SignupService, private router: Router) {
     (this.username = ''), (this.password = '');
   }
 
@@ -21,8 +22,8 @@ export class SignupComponent {
     };
     this.signupService.signup(signupData).subscribe(
       (response) => {
-        // Handle the response from the backend
         console.log('Signup successful!', response);
+        this.router.navigate(['/login']);
       },
       (error) => {
         // Handle any errors
