@@ -49,9 +49,9 @@ public class JwtAuthenticationController {
     }
     
     @PostMapping("/jwt/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody User user) {
     	userDetailsService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        return ResponseEntity.ok(new AuthenticationResponse("sucessful"));
     }
     
     @GetMapping("/getData")

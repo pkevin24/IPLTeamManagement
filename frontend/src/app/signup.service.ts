@@ -12,6 +12,8 @@ export class SignupService {
   signup(signupData: SignupDTO): Observable<any> {
     const url = 'http://localhost:8080/jwt/register';
     console.log(signupData);
-    return this.http.post(url, signupData);
+    const check=this.http.post(url, signupData);
+    console.log(check);
+    return check;
   }
 }
