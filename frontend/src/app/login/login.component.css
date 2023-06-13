@@ -1,60 +1,64 @@
-.login-card {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 2px solid #ff5252;
-    border-radius: 8px;
-    background-color: #f8f8f8;
+/* Custom CSS */
+body {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.login-card {
+    margin: auto;
+    max-width: 400px;
+    padding: 40px 30px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-card h2 {
     text-align: center;
-    color: #ffffff;
-    margin-bottom: 20px;
+    color: #333333;
+    margin-bottom: 30px;
 }
 
 .form-field {
-    margin-bottom: 16px;
-    width: 100%;
+    margin-bottom: 20px;
 }
 
 .form-field label {
     display: block;
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: #555555;
     margin-bottom: 8px;
 }
 
 .form-field input {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #cccccc;
     border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #555555;
+    transition: border-color 0.3s ease;
+}
+
+.form-field input:focus {
+    outline: none;
+    border-color: #ff5252;
 }
 
 button[type="submit"] {
     background-color: #ff5252;
-    color: white;
+    color: #ffffff;
     border: none;
     border-radius: 4px;
-    padding: 10px 16px;
-    font-weight: bold;
+    padding: 12px 20px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
     background-color: #e60000;
-}
-
-.cricket-image {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.cricket-image img {
-    max-width: 200px;
 }
