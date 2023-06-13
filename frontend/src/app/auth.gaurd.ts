@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    const jwt = sessionStorage.getItem('jwt');
+    const jwt = sessionStorage.getItem('jwtToken');
     if (jwt) {
       return true; // Allow access to the home page if a valid JWT is present
     } else {
