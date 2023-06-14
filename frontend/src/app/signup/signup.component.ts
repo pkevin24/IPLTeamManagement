@@ -11,7 +11,11 @@ import { SignupService } from '../signup.service';
 export class SignupComponent {
   username: string;
   password: string;
+<<<<<<< HEAD
   constructor(private signupService: SignupService,private router: Router) {
+=======
+  constructor(private signupService: SignupService, private router: Router) {
+>>>>>>> origin/main
     (this.username = ''), (this.password = '');
   }
 
@@ -21,6 +25,7 @@ export class SignupComponent {
       password: this.password,
     };
     this.signupService.signup(signupData).subscribe(
+<<<<<<< HEAD
       (response:any) => {
         // Handle the response from the backend
         console.log(response)
@@ -33,6 +38,11 @@ export class SignupComponent {
         this.router.navigate(['/login']);
         }
 
+=======
+      (response) => {
+        console.log('Signup successful!', response);
+        this.router.navigate(['/login']);
+>>>>>>> origin/main
       },
       (error: any) => {
         // Handle any errors
